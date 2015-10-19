@@ -7,7 +7,7 @@ void compile(const char * const text_body)
 	int num_brackets = 0;
 	int matching_brackets = 0;
 	struct stack stack = { .size = 0, .items = {0}};
-	const char * const prologue = 
+	const char * const prologue =
 	    ".section .text\n"
 	    ".global main\n"
 	    "main:\n"
@@ -22,7 +22,7 @@ void compile(const char * const text_body)
 	puts(prologue);
 
 	for (unsigned long i = 0; text_body[i] != '\0'; ++i) {
-		switch (text_body[i]){
+		switch (text_body[i]) {
 		case '>':
 			puts("    inc %ecx");
 			break;

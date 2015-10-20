@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
 	int value;
 	int pcstack[MAX_NESTING];
 	int *top = pcstack, *limit = pcstack + MAX_NESTING;
+	char *old_p;
 
 	// Function prologue.
 	|  push PTR
@@ -70,6 +71,16 @@ int main(int argc, char *argv[])
 			|  mov   byte [PTR], al
 			break;
 		case '[':
+			old_p = p;
+			do {
+				p++;
+			} while (*p && *p == '-');	
+			if (*p == ']') {
+				|  mov byte [PTR], 0
+				break;
+			}
+			p = old_p;
+
 			if (top == limit) err("Nesting too deep.");
 			// Each loop gets two pclabels: at the beginning and end.
 			// We store pclabel offsets in a stack to link the loop
